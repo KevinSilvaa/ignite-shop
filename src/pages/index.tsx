@@ -3,18 +3,18 @@ import { HomeContainer, Product } from "../styles/pages/home"
 import "keen-slider/keen-slider.min.css"
 
 // Strategic Imports
-import Image from "next/image"
 import { useKeenSlider } from "keen-slider/react"
 import { stripe } from "../lib/stripe"
-import { GetStaticProps } from "next"
 import Stripe from "stripe"
+import Image from "next/image"
+import { GetStaticProps } from "next"
 
 interface HomeProps {
   products: {
     id: string;
     name: string;
     imageUrl: string;
-    price: number;
+    price: string;
   }[]
 }
 
@@ -27,12 +27,15 @@ export default function Home({ products }: HomeProps) {
     },
   })
 
-  console.log(products)
-
   return (
     <HomeContainer ref={sliderRef} className="keen-slider">
       {products.map(product => (
-        <Product className="keen-slider__slide" key={product.id}>
+        <Product
+          href={`/product/${product.id}`}
+          className="keen-slider__slide"
+          key={product.id}
+          prefetch={false}
+        >
           <Image src={product.imageUrl} priority width={520} height={480} alt="" />
 
           <footer>
@@ -63,7 +66,7 @@ export const getStaticProps: GetStaticProps = async () => {
       price: new Intl.NumberFormat("pt-BR", {
         style: "currency",
         currency: "BRL",
-      }).format(price.unit_amount! / 100),
+      }).format(price.unit_amount / 100),
     }
   })
 
