@@ -4,8 +4,6 @@
   ![Ignite Shop Home](https://github.com/KevinSilvaa/ignite-shop/assets/143517496/d84d5c21-1e28-4641-9b7d-c82885b22bd5)
 </div>
 
-
-
 <h3 align="center">Projeto realizado durante a trilha para especialização em ReactJS da Rocketseat</h3> <br><br>
 
 <div align="center">
