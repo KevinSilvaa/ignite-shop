@@ -1,73 +1,63 @@
 // Styling Imports
-import { ProductContainer, ImageContainer, ProductDetails } from '@/src/styles/pages/product'
+import { ProductContainer, ImageContainer, ProductDetails } from '@/styles/pages/product'
 
 // Strategic Imports
+import Head from "next/head"
 import Image from 'next/image';
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { stripe } from '@/src/lib/stripe';
+import { stripe } from '@/lib/stripe';
 import Stripe from 'stripe';
-import axios from 'axios';
-import { useState } from 'react';
+import { useContext } from 'react';
+import { CartContext } from '@/contexts/cartContext';
+import { priceFormatter } from 'src/utils/priceFormatter';
 
 interface ProductProps {
   product: {
     id: string;
     name: string;
     imageUrl: string;
-    price: string;
+    price: number;
     description: string;
     defaultPriceId: string;
   }
 }
 
 export default function Product({ product }: ProductProps) {
-  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false);
-  
-  async function handleBuyProduct() {
-    try {
-      setIsCreatingCheckoutSession(true);
+  const { products, handleAddToCart } = useContext(CartContext);
 
-      const response = await axios.post("/api/checkout", {
-        priceId: product.defaultPriceId,
-      })
-
-      const { checkoutUrl } = response.data;
-
-      window.location.href = checkoutUrl;
-    } catch (error) {
-      setIsCreatingCheckoutSession(false);
-
-      alert("Falha ao redirecionar ao checkout!")
-    }
-  }
+  const productWithSameId = products.find(p => p.id === product.id);
 
   return (
-    <ProductContainer>
-      <ImageContainer>
-        <Image src={product.imageUrl} width={520} height={480} alt="" />
-      </ImageContainer>
+    <>
+      <Head>
+        <title>{product.name} | Ignite Shop</title>
+      </Head>
 
-      <ProductDetails>
-        <h1>{product.name}</h1>
-        <span>{product.price}</span>
-        <p>{product.description}</p>
+      <ProductContainer>
+        <ImageContainer>
+          <Image src={product.imageUrl} width={520} height={480} alt="" />
+        </ImageContainer>
 
-        <button 
-          onClick={handleBuyProduct}
-          disabled={isCreatingCheckoutSession}
-        >
-          Comprar agora
-        </button>
-      </ProductDetails>
-    </ProductContainer>
+        <ProductDetails>
+          <h1>{product.name}</h1>
+          <span>{priceFormatter.format(product.price)}</span>
+          <p>{product.description}</p>
+
+          <button
+            onClick={() => handleAddToCart(product)}
+            disabled={!!productWithSameId}
+          >
+            {productWithSameId ? "Produto já adicionado ao carrinho" : "Colocar na sacola"}
+          </button>
+        </ProductDetails>
+      </ProductContainer>
+    </>
   );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    paths: [
-      { params: { id: "prod_PBITATwEuVmhOg" } },
-    ],
+    paths: [],
     fallback: true,
   }
 }
@@ -87,10 +77,7 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({ para
         id: product.id,
         name: product.name,
         imageUrl: product.images[0],
-        price: new Intl.NumberFormat("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-        }).format(price.unit_amount / 100),
+        price: price.unit_amount / 100,
         description: product.description,
         defaultPriceId: price.id
       }

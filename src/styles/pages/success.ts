@@ -1,4 +1,4 @@
-import { styled } from "..";
+import { styled } from "@/styles/index";
 
 export const SuccessContainer = styled("main", {
   display: "flex",
@@ -11,6 +11,7 @@ export const SuccessContainer = styled("main", {
   h1: {
     fontSize: "$2xl",
     color: "gray100",
+    marginTop: "3rem",
   },
 
   p: {
@@ -36,17 +37,29 @@ export const SuccessContainer = styled("main", {
   }
 });
 
-export const ImageContainer = styled("div", {
-  width: "100%",
+export const ProductsContainer = styled("div", {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  maxWidth: 130,
-  height: 145,
+  marginRight: "2rem",
+
+  div: {
+    marginRight: "-2rem",
+  }
+})
+
+export const ProductImage = styled("div", {
+  width: "100%",
+  display: "flex",
+  marginLeft: "-1rem",
+  justifyContent: "center",
+  alignItems: "center",
+  maxWidth: 140,
+  height: 140,
   background: "linear-gradient(180deg, #1EA483 0%, #7465D4 100%)",
-  borderRadius: 8,
+  borderRadius: 9999,
   padding: "0.25rem",
-  marginTop: "4rem",
+  boxShadow: "0px 0px 20px 0px rgba(0, 0, 0, 0.80)",
 
   img: {
     objectFit: "cover",

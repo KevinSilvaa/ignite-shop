@@ -1,4 +1,4 @@
-import { styled } from '..'
+import { styled } from '@/styles/index'
 import Link from "next/link"
 
 export const HomeContainer = styled('main', {
@@ -33,23 +33,36 @@ export const Product = styled(Link, {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: "2rem",
+    padding: "1.25rem 2rem",
     borderRadius: 6,
     backgroundColor: "rgba(32, 32, 36, 0.90)",
     transform: "translateY(110%)",
     opacity: 0,
     transition: "all 0.2s ease-in-out",
 
-    strong: {
-      fontSize: "$lg",
-      color: "$gray100",
+    div: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      gap: "0.25rem",
+
+      strong: {
+        fontSize: "$lg",
+        color: "$gray100",
+        lineHeight: 1.6,
+      },
+  
+      span: {
+        fontSize: "$xl",
+        fontWeight: 700,
+        color: "$green300",
+        lineHeight: 1.4,
+      },
     },
 
-    span: {
-      fontSize: "$xl",
-      fontWeight: 700,
-      color: "$green300"
-    },
+    button: {
+      backgroundColor: "$green300",
+    }
   },
 
   "&:hover": {

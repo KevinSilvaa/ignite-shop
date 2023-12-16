@@ -1,4 +1,4 @@
-import { styled } from "..";
+import { styled } from "@/styles/index";
 
 export const ProductContainer = styled("main", {
   display: "grid",
