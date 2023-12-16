@@ -28,7 +28,7 @@ uma biblioteca chamada **Keen-slider** para fazer o carrossel dos produtos.
 
 - `TypeScript`; Utilizado para adicionar uma tipagem estática a aplicação, reduzindo a quantidade de possíveis erros.
 - `Axios`; Utilizado para fazer requisições para *API*.
-- `Next.js`: Uma biblioteca do JavaScript utilizada para estruturação das páginas com uma melhor performance e simplicidade.
+- `Next.js`: Uma Framework do React utilizada para estruturação das páginas com ainda mais performance.
     
   - `Stitches`; Utilizado para a estilização das páginas dentro do JavaScript (CSS-in-JS).
   - `Phosphor Icons`; Utilizado para importar ícones de uma maneira mais simples.
