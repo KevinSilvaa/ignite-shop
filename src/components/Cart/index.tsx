@@ -12,67 +12,67 @@ import {
   CartItemsQuantity,
   CartItemsPrice,
   CartCheckoutButton,
-} from "@/styles/components/cart";
+} from '@/styles/components/cart'
 
 // Strategic Imports
-import { useContext, useState } from "react";
-import { CartContext } from "@/contexts/cartContext";
-import Image from "next/image";
-import { priceFormatter } from "src/utils/priceFormatter";
-import axios from "axios";
+import { useContext, useState } from 'react'
+import { CartContext } from '@/contexts/cartContext'
+import Image from 'next/image'
+import { priceFormatter } from 'src/utils/priceFormatter'
+import axios from 'axios'
 
 // Icons Imports
-import { X, XCircle } from "phosphor-react";
+import { X, XCircle } from 'phosphor-react'
 
 export function Cart() {
-  const { products, handleCloseCart, cartIsOpen, handleRemoveFromCart, totalPrice } = useContext(CartContext);
+  const {
+    products,
+    handleCloseCart,
+    cartIsOpen,
+    handleRemoveFromCart,
+    totalPrice,
+  } = useContext(CartContext)
 
-  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false);
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
+    useState(false)
 
-  const cartIsEmpty = products.length === 0;
+  const cartIsEmpty = products.length === 0
 
   async function handleCheckout() {
     try {
-      setIsCreatingCheckoutSession(true);
+      setIsCreatingCheckoutSession(true)
 
-      const response = await axios.post("/api/checkout", {
-        products: products.map(product => product),
+      const response = await axios.post('/api/checkout', {
+        products: products.map((product) => product),
       })
 
-      const { checkoutUrl } = response.data;
+      const { checkoutUrl } = response.data
 
-      window.location.href = checkoutUrl;
+      window.location.href = checkoutUrl
     } catch (error) {
-      setIsCreatingCheckoutSession(false);
+      setIsCreatingCheckoutSession(false)
 
-      alert("Falha ao redirecionar ao checkout!")
+      alert('Falha ao redirecionar ao checkout!')
     }
   }
 
   return (
     <CartContainer
-      css={{ transform: cartIsOpen ? "translateX(0)" : "translateX(110%)" }}
+      css={{ transform: cartIsOpen ? 'translateX(0)' : 'translateX(110%)' }}
     >
-      <CartCloseButton
-        onClick={handleCloseCart}
-      >
-        <X
-          size={24}
-          weight="bold"
-          color="#8D8D99"
-        />
+      <CartCloseButton onClick={handleCloseCart}>
+        <X size={24} weight="bold" color="#8D8D99" />
       </CartCloseButton>
       <h3>Sacola de compras</h3>
 
       <Products>
-        {cartIsEmpty ?
+        {cartIsEmpty ? (
           <CartEmptyContainer>
             <strong>Ooooops! Seu carrinho está vazio</strong>
             <XCircle size={132} />
           </CartEmptyContainer>
-          :
-
-          products.map(product => (
+        ) : (
+          products.map((product) => (
             <Product key={product.id}>
               <ProductImage>
                 <Image src={product.imageUrl} width={94} height={94} alt="" />
@@ -82,20 +82,23 @@ export function Cart() {
                 <span>{product.name}</span>
                 <strong>{priceFormatter.format(product.price)}</strong>
 
-                <ProductRemoveButton onClick={() => handleRemoveFromCart(product)}>
+                <ProductRemoveButton
+                  onClick={() => handleRemoveFromCart(product)}
+                >
                   Remover
                 </ProductRemoveButton>
               </ProductDetails>
             </Product>
           ))
-
-        }
+        )}
       </Products>
 
       <CartCheckoutContainer>
         <CartItemsQuantity>
           <p>Quantidade</p>
-          <span>{products.length} {products.length === 1 ? "item" : "itens"}</span>
+          <span>
+            {products.length} {products.length === 1 ? 'item' : 'itens'}
+          </span>
         </CartItemsQuantity>
 
         <CartItemsPrice>
@@ -111,5 +114,5 @@ export function Cart() {
         </CartCheckoutButton>
       </CartCheckoutContainer>
     </CartContainer>
-  );
+  )
 }
