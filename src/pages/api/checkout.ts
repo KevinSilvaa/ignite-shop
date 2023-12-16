@@ -15,7 +15,6 @@ export default async function handle(
   res: NextApiResponse,
 ) {
   const { products } = req.body as { products: ProductProps[] }
-  console.log(products.map((product) => product.defaultPriceId))
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })

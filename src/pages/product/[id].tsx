@@ -13,7 +13,8 @@ import { stripe } from '@/lib/stripe'
 import Stripe from 'stripe'
 import { useContext } from 'react'
 import { CartContext } from '@/contexts/cartContext'
-import { priceFormatter } from 'src/utils/priceFormatter'
+import { priceFormatter } from '@/utils/priceFormatter'
+import { useRouter } from 'next/router'
 
 interface ProductProps {
   product: {
@@ -29,7 +30,13 @@ interface ProductProps {
 export default function Product({ product }: ProductProps) {
   const { products, handleAddToCart } = useContext(CartContext)
 
+  const { isFallback } = useRouter()
+
   const productWithSameId = products.find((p) => p.id === product.id)
+
+  if (isFallback) {
+    return <h1>Loading......</h1>
+  }
 
   return (
     <>
